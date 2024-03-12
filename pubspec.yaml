@@ -1,0 +1,45 @@
+name: bulk_renaming_flutter
+version: 1.0.0+1
+publish_to: none
+description: 文件批量更名软件
+environment: 
+  sdk: '>=3.2.5 <4.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  get: 4.6.6
+  window_manager: ^0.3.8
+  flutter: 
+    sdk: flutter
+  path_provider: ^2.1.2
+
+dev_dependencies: 
+  flutter_lints: ^2.0.0
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  uses-material-design: true
+  fonts:
+    - family: MiSans
+      fonts:
+       - asset: fonts/MiSans-Normal.ttf
+         weight: 400
+         style: normal
+       - asset: fonts/MiSans-Thin.ttf
+         weight: 100
+       - asset: fonts/MiSans-ExtraLight.ttf
+         weight: 200
+       - asset: fonts/MiSans-Light.ttf
+         weight: 300
+       - asset: fonts/MiSans-Regular.ttf
+         weight: 500
+       - asset: fonts/MiSans-Medium.ttf
+         weight: 600
+       - asset: fonts/MiSans-Semibold.ttf
+         weight: 700
+       - asset: fonts/MiSans-Demibold.ttf
+         weight: 800
+       - asset: fonts/MiSans-Bold.ttf
+         weight: 900
+
