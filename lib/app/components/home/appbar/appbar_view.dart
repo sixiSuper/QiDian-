@@ -8,6 +8,7 @@ import 'package:window_manager/window_manager.dart';
 
 AppBar appbar(BuildContext context, controller) {
   return AppBar(
+    surfaceTintColor: Colors.transparent,
     backgroundColor: Colors.white,
     title: DragToMoveArea(
       child: Container(

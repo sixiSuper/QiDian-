@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../general/button/button.dart';
 
-Widget pageTitle(BuildContext context) {
+Widget pageTitle(BuildContext context, controller) {
   return container(
     context,
 
@@ -31,7 +31,8 @@ Widget pageTitle(BuildContext context) {
 
           // 执行逻辑
           onPressed: () {
-            print('object');
+            // 调用开启目录方法
+            controller.getFile();
           },
         ),
 

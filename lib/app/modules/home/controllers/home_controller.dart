@@ -1,4 +1,5 @@
 import 'package:bulk_renaming_flutter/app/components/general/alertDialog/alertDialog_view.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +9,7 @@ import 'package:window_manager/window_manager.dart';
 class HomeController extends GetxController with WindowListener {
   BuildContext? context; // 获取主体
   RxBool isMaximized = false.obs; // 是否最大化
+  RxString filePath = ''.obs; // 文件路径
 
   @override
   void onInit() {
@@ -92,6 +94,18 @@ class HomeController extends GetxController with WindowListener {
   /// 自定义方法：窗口最大化/正常化状态变更
   void toggleMaximize() {
     isMaximized.value = !isMaximized.value;
+  }
+
+  /// 获取本地文件目录
+  void getFile() async {
+    print('打开了目录选择器');
+    final String? path = await getDirectoryPath();
+    if (path != null) {
+      // print('path: $path');
+
+      // 传入选中的路径
+      filePath.value = path;
+    }
   }
 
   // void increment() => count.value++;

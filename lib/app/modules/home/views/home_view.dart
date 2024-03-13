@@ -16,11 +16,11 @@ class HomeView extends GetView<HomeController> {
         appBar: appbar(context, controller),
 
         // 内容部分
-        body: Column(
-          children: [
-            pageTitle(context), // 页眉部分
-            const BodyView(), // 主体内容部分
-          ],
-        ));
+        body: Obx(() => Column(
+              children: [
+                pageTitle(context, controller), // 页眉部分
+                BodyView.filePath(controller.filePath.value), // 主体内容部分
+              ],
+            )));
   }
 }

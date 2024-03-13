@@ -5,8 +5,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
-Widget table(BuildContext context) {
+import '../../../models/home/filesListTime.dart';
+
+Widget table(BuildContext context, RxList<FilesListTime> filesList, {String filePath = '未打开'}) {
   double tableHeaderHightSize = 50;
   // 页眉文字统一样式
   TextStyle tableHeaderTextStyle = TextStyle(
@@ -74,17 +77,29 @@ Widget table(BuildContext context) {
           ],
         )),
 
-    // 内容
-    Flexible(
-      child: Container(
-        padding: const EdgeInsets.only(top: 15),
+    // 表格内容
+    Obx(() => Flexible(
+          child: Container(
+            padding: const EdgeInsets.only(top: 15),
 
-        // 列表
-        child: ListView.builder(
-          itemCount: 2,
-          itemBuilder: (context, index) => tableRow(context),
-        ),
-      ),
+            // 列表
+            child: ListView.builder(
+              itemCount: filesList.length,
+              itemBuilder: (context, index) => tableRow(
+                context,
+                folder: filesList[index].folder,
+                fileName: filesList[index].fileName,
+                fileFormat: filesList[index].fileFormat,
+              ),
+            ),
+          ),
+        )),
+
+    // 页脚：展示文件夹路径
+    Container(
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.all(10),
+      child: Text('当前目录：${filePath == '' ? '无' : filePath}'),
     )
   ]);
 }
@@ -100,7 +115,6 @@ Widget tableRow(
 
   /// 文件格式
   String fileFormat = '格式',
-  FocusNode? focusNode,
 }) {
   // 行高度
   double tableHeaderHightSize = 40;
@@ -112,6 +126,12 @@ Widget tableRow(
     color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
     overflow: TextOverflow.ellipsis,
   );
+
+  // 判断是否为视频
+  bool isVideo = fileFormat == 'avi' || fileFormat == 'mov' || fileFormat == 'mp4' || fileFormat == 'mpg' || fileFormat == 'mpeg' || fileFormat == 'mpe' || fileFormat == 'dat' || fileFormat == 'vob' || fileFormat == 'asf' || fileFormat == '3gp' || fileFormat == 'wmv' || fileFormat == 'asf' || fileFormat == 'flv' || fileFormat == 'mkv';
+
+  // 判断是否为图片
+  bool isImage = fileFormat == 'jpg' || fileFormat == 'png' || fileFormat == 'jpeg' || fileFormat == 'gif' || fileFormat == 'bmp' || fileFormat == 'tif' || fileFormat == 'tiff' || fileFormat == 'ico' || fileFormat == 'svg';
 
   // 内容
   return Container(
@@ -127,14 +147,24 @@ Widget tableRow(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // 文件类型
+                // 文件类型(图标)
                 Container(
                   width: 80,
                   alignment: Alignment.center,
                   child: Icon(
-                    folder ? Icons.folder : Icons.article_rounded,
+                    folder
+                        ? Icons.folder
+                        : isVideo
+                            ? Icons.video_collection_rounded
+                            : isImage
+                                ? Icons.photo
+                                : Icons.article_rounded,
                     size: 24,
-                    color: folder ? Colors.yellow[700] : Theme.of(context).colorScheme.onSecondary,
+                    color: folder
+                        ? Colors.yellow[700]
+                        : isVideo || isImage
+                            ? Theme.of(context).colorScheme.primary.withOpacity(0.8)
+                            : Theme.of(context).colorScheme.onSecondary.withOpacity(0.8),
                   ),
                 ),
 
