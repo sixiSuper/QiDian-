@@ -78,11 +78,11 @@ Widget table(BuildContext context) {
     Flexible(
       child: Container(
         padding: const EdgeInsets.only(top: 15),
-        child: ListView(
-          children: [
-            tableRow(context, folder: true),
-            tableRow(context),
-          ],
+
+        // 列表
+        child: ListView.builder(
+          itemCount: 2,
+          itemBuilder: (context, index) => tableRow(context),
         ),
       ),
     )
