@@ -102,7 +102,7 @@ Widget borderButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
         foregroundColor: MaterialStateColor.resolveWith((states) => Theme.of(context).colorScheme.onPrimary.withOpacity(0.8)),
-        overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
+        overlayColor: MaterialStateColor.resolveWith((states) => Colors.black.withOpacity(0.05)),
         shadowColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
         surfaceTintColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
         // 形状
