@@ -18,8 +18,13 @@ class HomeView extends GetView<HomeController> {
         // 内容部分
         body: Obx(() => Column(
               children: [
-                pageTitle(context, controller), // 页眉部分
-                BodyView.filePath(controller.filePath.value), // 主体内容部分
+                pageTitle(context, controller), // 页眉部分（几个主要操作按钮）
+                // 表格内容部分
+                BodyView.filePath(controller.filePath.value, controller.listRefreshCount.value, (e) {
+                  // 将子组件得到的列表值传给父组件
+                  controller.allFilesList.value = e;
+                  print('向父组件传值成功，第一个文件/文件夹名称：${e[0].newFileName}');
+                }), // 主体内容部分
               ],
             )));
   }

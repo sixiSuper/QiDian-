@@ -9,7 +9,7 @@ class FilesListTime {
   late final String fileFormat;
 
   /// 新名称（默认为原文件名称）
-  late final String newFileName;
+  late String newFileName;
 
   FilesListTime({
     required this.folder,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../models/home/filesListTime.dart';
@@ -12,56 +13,22 @@ class BodyController extends GetxController {
   // 合并列表
   RxList<FilesListTime> allFilesList = <FilesListTime>[].obs;
 
+  ValueChanged<List<FilesListTime>>? changeColorCallBack;
+
   // 文件路径
   RxString filePath = ''.obs;
+  RxInt listRefreshCount = 0.obs;
 
   @override // 生命周期：初始化
   void onInit() {
     super.onInit();
 
     // 监听路径变化并及时获取文件列表
-    ever(filePath, (_) {
-      if (_ != '') {
+    ever(listRefreshCount, (_) {
+      if (filePath.value != '') {
         getFilesList();
       }
     });
-
-    // 实验初始化
-    // filesList.add(FilesListTime.fromJson({
-    //   'folder': true,
-    //   'fileName': '文件夹1',
-    //   'fileFormat': '',
-    // }));
-    // filesList.add(FilesListTime.fromJson({
-    //   'folder': false,
-    //   'fileName': '视频1',
-    //   'fileFormat': 'mp4',
-    // }));
-    // filesList.add(FilesListTime.fromJson({
-    //   'folder': false,
-    //   'fileName': '视频2',
-    //   'fileFormat': 'avi',
-    // }));
-    // filesList.add(FilesListTime.fromJson({
-    //   'folder': false,
-    //   'fileName': '图片1',
-    //   'fileFormat': 'jpg',
-    // }));
-    // filesList.add(FilesListTime.fromJson({
-    //   'folder': false,
-    //   'fileName': '图片2',
-    //   'fileFormat': 'png',
-    // }));
-    // filesList.add(FilesListTime.fromJson({
-    //   'folder': false,
-    //   'fileName': '其他文件1',
-    //   'fileFormat': 'txt',
-    // }));
-    // filesList.add(FilesListTime.fromJson({
-    //   'folder': false,
-    //   'fileName': '其他文件2',
-    //   'fileFormat': 'docx',
-    // }));
   }
 
   @override // 生命周期：启动完成
@@ -70,7 +37,7 @@ class BodyController extends GetxController {
     print(filePath.value);
   }
 
-  /// 获取文件夹下所有文件列表
+  /// 自定义方法：获取文件夹下所有文件列表
   void getFilesList() async {
     // 清空两大列表
     directoryList.clear();
@@ -127,5 +94,13 @@ class BodyController extends GetxController {
 
     // 更新文件列表
     allFilesList.value = temporary;
+    changeColorCallBack!(allFilesList);
+  }
+
+  /// 自定义方法：修改新名称
+  void changeName(String newName, index) {
+    allFilesList[index].newFileName = newName;
+    changeColorCallBack!(allFilesList);
+    print('新名称同步成功：${allFilesList[index].newFileName}');
   }
 }

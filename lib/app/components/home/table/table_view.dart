@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 import '../../../models/home/filesListTime.dart';
 
-Widget table(BuildContext context, RxList<FilesListTime> filesList, {String filePath = '未打开'}) {
+Widget table(BuildContext context, RxList<FilesListTime> filesList, {String filePath = '未打开', Function? changeName}) {
   double tableHeaderHightSize = 50;
   // 页眉文字统一样式
   TextStyle tableHeaderTextStyle = TextStyle(
@@ -90,6 +90,8 @@ Widget table(BuildContext context, RxList<FilesListTime> filesList, {String file
                 folder: filesList[index].folder,
                 fileName: filesList[index].fileName,
                 fileFormat: filesList[index].fileFormat,
+                index: index,
+                changeName: changeName,
               ),
             ),
           ),
@@ -115,6 +117,12 @@ Widget tableRow(
 
   /// 文件格式
   String fileFormat = '格式',
+
+  /// 序列
+  int index = 0,
+
+  /// 同步新名称方法
+  Function? changeName,
 }) {
   // 行高度
   double tableHeaderHightSize = 40;
@@ -193,23 +201,23 @@ Widget tableRow(
             //   borderRadius: BorderRadius.circular(5),
             // ),
             child: TextField(
-              decoration: InputDecoration(
-                hintText: '请输入新文件名，空置代表使用原名称',
-                hintStyle: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                decoration: InputDecoration(
+                  hintText: '请输入新文件名，空置代表使用原名称',
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400],
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.only(bottom: 18),
+                  alignLabelWithHint: true,
                 ),
-                floatingLabelStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                hintTextDirection: TextDirection.ltr,
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.only(bottom: 18),
-                alignLabelWithHint: true,
-              ),
-            ),
+
+                // 监听输入内容
+                onChanged: (text) {
+                  changeName!(text, index);
+                  print(text);
+                }),
           ),
         ],
       ));

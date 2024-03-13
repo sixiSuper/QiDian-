@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bulk_renaming_flutter/app/components/general/alertDialog/alertDialog_view.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +8,18 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
 
+import '../../../models/home/filesListTime.dart';
+
 class HomeController extends GetxController with WindowListener {
   BuildContext? context; // 获取主体
   RxBool isMaximized = false.obs; // 是否最大化
   RxString filePath = ''.obs; // 文件路径
+
+  /// 列表刷新计数
+  RxInt listRefreshCount = 0.obs;
+
+  // 所有文件的列表
+  RxList<FilesListTime> allFilesList = <FilesListTime>[].obs;
 
   @override
   void onInit() {
@@ -96,7 +106,7 @@ class HomeController extends GetxController with WindowListener {
     isMaximized.value = !isMaximized.value;
   }
 
-  /// 获取本地文件目录
+  /// 自定义方法：获取本地文件目录
   void getFile() async {
     print('打开了目录选择器');
     final String? path = await getDirectoryPath();
@@ -105,8 +115,40 @@ class HomeController extends GetxController with WindowListener {
 
       // 传入选中的路径
       filePath.value = path;
+      // 刷新列表数据
+      listRefreshCount.value++;
     }
   }
 
-  // void increment() => count.value++;
+  /// TODO 自定义方法：文件重命名
+  void renameFile() async {
+    /// 循环列表，将每个文件重命名并写入新文件夹中
+    for (int i = 0; i < allFilesList.length; i++) {
+      if (allFilesList[i].fileName != allFilesList[i].newFileName) {
+        // 获取后缀名
+        var format = allFilesList[i].fileFormat == '' ? '' : '.${allFilesList[i].fileFormat}';
+
+        // 重命名文件
+        if (allFilesList[i].folder) {
+          // 重命名类型是文件夹
+          var oldFile = Directory('${filePath.value}${Platform.pathSeparator}${allFilesList[i].fileName}$format'); // 文件夹
+          var file = await oldFile.rename('${filePath.value}${Platform.pathSeparator}${allFilesList[i].newFileName}$format');
+          // 让页面刷新一下
+          listRefreshCount.value++;
+
+          // 输出结果
+          print('${file.path}${Platform.pathSeparator} 文件夹重命名成功');
+        } else {
+          // 重命名类型是文件
+          var oldFile = File('${filePath.value}${Platform.pathSeparator}${allFilesList[i].fileName}$format'); // 文件夹
+          var file = await oldFile.rename('${filePath.value}${Platform.pathSeparator}${allFilesList[i].newFileName}$format');
+          // 动一动路径，让页面刷新一下
+          listRefreshCount.value++;
+
+          // 输出结果
+          print('${file.path}${Platform.pathSeparator} 文件重命名成功');
+        }
+      }
+    }
+  }
 }

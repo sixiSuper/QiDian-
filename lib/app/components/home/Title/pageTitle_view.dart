@@ -62,7 +62,8 @@ Widget pageTitle(BuildContext context, controller) {
 
               // 执行逻辑
               onPressed: () {
-                print('object');
+                // 调用重命名文件方法
+                controller.renameFile();
               },
             ),
           ],
