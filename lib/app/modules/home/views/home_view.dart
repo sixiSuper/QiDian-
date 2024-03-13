@@ -19,7 +19,7 @@ class HomeView extends GetView<HomeController> {
         body: Column(
           children: [
             pageTitle(context), // 页眉部分
-            body(context), // 主体内容部分
+            const BodyView(), // 主体内容部分
           ],
         ));
   }

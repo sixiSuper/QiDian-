@@ -51,6 +51,7 @@ class AppTheme {
 
         // 底部浮动按钮
         floatingActionButtonTheme: const FloatingActionButtonThemeData(),
+        dataTableTheme: const DataTableThemeData(),
 
         // 色彩大全
         colorScheme: ColorScheme(
@@ -61,7 +62,7 @@ class AppTheme {
           secondaryContainer: Colors.black, // 次要容器背景色
           background: QiColor.backgroundColor(), // 主要背景色
           error: QiColor.emphasize(levels: 4), // 错误色
-          onBackground: QiColor.emphasize(),
+          onBackground: QiColor.gray(levels: 1),
           onError: QiColor.warning(),
           onPrimary: QiColor.gray(), // 主要字体颜色
           onSecondary: QiColor.gray(levels: 3), // 次要字体颜色
