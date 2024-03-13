@@ -9,7 +9,7 @@ void main() async {
   //初始化 windowManager
   await windowManager.ensureInitialized();
   WindowOptions windowOptions = const WindowOptions(
-    minimumSize: Size(720, 480), //设置窗口的最小尺寸
+    minimumSize: Size(960, 720), //设置窗口的最小尺寸
     // maximumSize: Size(800, 600), //设置窗口的最大尺寸
     //window 设置窗口的初始尺寸
     // size: Size(800, 500),
