@@ -11,14 +11,9 @@ dependencies:
   window_manager: ^0.3.8
   flutter: 
     sdk: flutter
-<<<<<<< HEAD
-  path_provider: ^2.1.2
-  file_selector: ^1.0.3
-  fluttertoast: ^8.2.4
-=======
   path_provider: ^2.1.2 # 路径选择
   file_selector: ^1.0.3 # 文件操作
->>>>>>> 0dd6b5be64b0b5d029f57e02e65f350df1c82e25
+  fluttertoast: ^8.2.4
 
 dev_dependencies: 
   flutter_lints: ^2.0.0

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 Widget primaryIconButton(
   BuildContext context, {
   Widget label = const Text('按钮内容'),
+  bool iconShow = true, // 是否显示图标
   IconData icon = Icons.add, // 按钮图标
   String iconPosition = 'left', // 图标位置 left | right
   Function()? onPressed, // 按钮点击事件
@@ -33,11 +34,20 @@ Widget primaryIconButton(
       ),
       onPressed: onPressed,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          iconPosition == 'left' ? Icon(icon) : label,
+          // 判断是否显示左侧图标
+          iconPosition == 'left' && iconShow ? Icon(icon) : const Text(''),
+
+          // 间隔
           const Padding(padding: EdgeInsets.all(4)),
-          iconPosition == 'right' ? Icon(icon) : label,
+
+          // 文字部分
+          label,
+
+          // 判断是否显示右侧图标
+          iconPosition == 'right' && iconShow ? Icon(icon) : const Text(''),
         ],
       ),
     ),

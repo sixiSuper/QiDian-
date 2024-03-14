@@ -85,8 +85,8 @@ Widget table(BuildContext context, RxList<FilesListTime> filesList, {String file
             // 列表
             child: ListView.builder(
               itemCount: filesList.length,
-              itemBuilder: (context, index) => tableRow(
-                context,
+              itemBuilder: (context, index) => TableRow(
+                key: ValueKey('${filesList[index].fileName}.${filesList[index].fileFormat}'),
                 folder: filesList[index].folder,
                 fileName: filesList[index].fileName,
                 fileFormat: filesList[index].fileFormat,
@@ -107,118 +107,130 @@ Widget table(BuildContext context, RxList<FilesListTime> filesList, {String file
 }
 
 // 列表行组件
-Widget tableRow(
-  BuildContext context, {
+class TableRow extends GetView {
   /// 是否为文件夹
-  bool folder = false,
+  final bool folder;
 
   /// 文件名称
-  String fileName = '文件名称',
+  final String fileName;
 
   /// 文件格式
-  String fileFormat = '格式',
+  final String fileFormat;
 
   /// 序列
-  int index = 0,
+  final int index;
 
   /// 同步新名称方法
-  Function? changeName,
-}) {
-  // 行高度
-  double tableHeaderHightSize = 40;
+  final Function? changeName;
 
-  // 页眉文字统一样式
-  TextStyle tableHeaderTextStyle = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w500,
-    color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
-    overflow: TextOverflow.ellipsis,
-  );
+  // 构造函数
+  const TableRow({
+    Key? key,
+    required this.folder,
+    required this.fileName,
+    required this.fileFormat,
+    required this.index,
+    required this.changeName,
+  }) : super(key: key);
 
-  // 判断是否为视频
-  bool isVideo = fileFormat == 'avi' || fileFormat == 'mov' || fileFormat == 'mp4' || fileFormat == 'mpg' || fileFormat == 'mpeg' || fileFormat == 'mpe' || fileFormat == 'dat' || fileFormat == 'vob' || fileFormat == 'asf' || fileFormat == '3gp' || fileFormat == 'wmv' || fileFormat == 'asf' || fileFormat == 'flv' || fileFormat == 'mkv';
+  @override
+  Widget build(BuildContext context) {
+    // 行高度
+    double tableHeaderHightSize = 40;
 
-  // 判断是否为图片
-  bool isImage = fileFormat == 'jpg' || fileFormat == 'png' || fileFormat == 'jpeg' || fileFormat == 'gif' || fileFormat == 'bmp' || fileFormat == 'tif' || fileFormat == 'tiff' || fileFormat == 'ico' || fileFormat == 'svg';
+    // 页眉文字统一样式
+    TextStyle tableHeaderTextStyle = TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
+      color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
+      overflow: TextOverflow.ellipsis,
+    );
 
-  // 内容
-  return Container(
-      height: tableHeaderHightSize,
-      // 内边距
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // 左侧内容
-          Flexible(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // 文件类型(图标)
-                Container(
-                  width: 80,
-                  alignment: Alignment.center,
-                  child: Icon(
-                    folder
-                        ? Icons.folder
-                        : isVideo
-                            ? Icons.video_collection_rounded
-                            : isImage
-                                ? Icons.photo
-                                : Icons.article_rounded,
-                    size: 24,
-                    color: folder
-                        ? Colors.yellow[700]
-                        : isVideo || isImage
-                            ? Theme.of(context).colorScheme.primary.withOpacity(0.8)
-                            : Theme.of(context).colorScheme.onSecondary.withOpacity(0.8),
+    // 判断是否为视频
+    bool isVideo = fileFormat == 'avi' || fileFormat == 'mov' || fileFormat == 'mp4' || fileFormat == 'mpg' || fileFormat == 'mpeg' || fileFormat == 'mpe' || fileFormat == 'dat' || fileFormat == 'vob' || fileFormat == 'asf' || fileFormat == '3gp' || fileFormat == 'wmv' || fileFormat == 'asf' || fileFormat == 'flv' || fileFormat == 'mkv';
+
+    // 判断是否为图片
+    bool isImage = fileFormat == 'jpg' || fileFormat == 'png' || fileFormat == 'jpeg' || fileFormat == 'gif' || fileFormat == 'bmp' || fileFormat == 'tif' || fileFormat == 'tiff' || fileFormat == 'ico' || fileFormat == 'svg';
+
+    // 内容
+    return Container(
+        height: tableHeaderHightSize,
+        // 内边距
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // 左侧内容
+            Flexible(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // 文件类型(图标)
+                  Container(
+                    width: 80,
+                    alignment: Alignment.center,
+                    child: Icon(
+                      folder
+                          ? Icons.folder
+                          : isVideo
+                              ? Icons.video_collection_rounded
+                              : isImage
+                                  ? Icons.photo
+                                  : Icons.article_rounded,
+                      size: 24,
+                      color: folder
+                          ? Colors.yellow[700]
+                          : isVideo || isImage
+                              ? Theme.of(context).colorScheme.primary.withOpacity(0.8)
+                              : Theme.of(context).colorScheme.onSecondary.withOpacity(0.8),
+                    ),
                   ),
-                ),
 
-                // 文件名称
-                Flexible(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 50),
-                    width: 1000,
-                    child: Text(fileName, style: tableHeaderTextStyle),
+                  // 文件名称
+                  Flexible(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 50),
+                      width: 1000,
+                      child: Text(fileName, style: tableHeaderTextStyle),
+                    ),
                   ),
-                ),
 
-                // 文件格式
-                SizedBox(width: 80, child: Text('.$fileFormat', style: tableHeaderTextStyle)),
-              ],
+                  // 文件格式
+                  SizedBox(width: 80, child: Text('.$fileFormat', style: tableHeaderTextStyle)),
+                ],
+              ),
             ),
-          ),
 
-          // 自定义重命名输入框
-          Container(
-            margin: const EdgeInsets.only(left: 80, top: 4, bottom: 4),
-            width: 300,
-            padding: const EdgeInsets.all(6),
-            // decoration: BoxDecoration(
-            //   border: Border.all(color: Colors.grey, width: 1),
-            //   borderRadius: BorderRadius.circular(5),
-            // ),
-            child: TextField(
-                decoration: InputDecoration(
-                  hintText: '请输入新文件名，空置将默认原名称',
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
+            // 自定义重命名输入框
+            Container(
+              margin: const EdgeInsets.only(left: 80, top: 4, bottom: 4),
+              width: 300,
+              padding: const EdgeInsets.all(6),
+              // decoration: BoxDecoration(
+              //   border: Border.all(color: Colors.grey, width: 1),
+              //   borderRadius: BorderRadius.circular(5),
+              // ),
+              child: TextField(
+                  decoration: InputDecoration(
+                    hintText: '请输入新文件名，空置将默认原名称',
+                    hintStyle: TextStyle(
+                      color: Colors.grey[400],
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.only(bottom: 18),
+                    alignLabelWithHint: true,
                   ),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.only(bottom: 18),
-                  alignLabelWithHint: true,
-                ),
 
-                // 监听输入内容
-                onChanged: (text) {
-                  changeName!(text, index);
-                  print(text);
-                }),
-          ),
-        ],
-      ));
+                  // 监听输入内容
+                  onChanged: (text) {
+                    changeName!(text, index);
+                    print(text);
+                  }),
+            ),
+          ],
+        ));
+  }
 }

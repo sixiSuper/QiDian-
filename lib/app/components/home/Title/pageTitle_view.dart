@@ -5,7 +5,9 @@
 import 'package:bulk_renaming_flutter/app/components/general/container/container.dart';
 import 'package:flutter/material.dart';
 
+import '../../general/alertDialog/alertDialog_view.dart';
 import '../../general/button/button.dart';
+import '../bulkOperations/bulkOperations_view.dart';
 
 Widget pageTitle(BuildContext context, controller) {
   return container(
@@ -30,9 +32,19 @@ Widget pageTitle(BuildContext context, controller) {
           icon: Icons.folder,
 
           // 执行逻辑
-          onPressed: () {
-            // 调用开启目录方法
-            controller.getFile();
+          onPressed: () async {
+            // 如果列表不为空，则调用确认弹窗
+            bool confirm = true;
+            if (controller.allFilesList.isNotEmpty) {
+              confirm = await alertDialog(
+                context,
+                title: '确认切换目录',
+                content: '目录切换后，未保存的内容将会清空',
+              );
+            }
+
+            // 确认后调用开启目录方法，进入选择界面
+            if (confirm) controller.getFile();
           },
         ),
 
@@ -48,7 +60,7 @@ Widget pageTitle(BuildContext context, controller) {
 
               // 执行逻辑
               onPressed: () {
-                print('object');
+                BulkOperations.bulkOperations(context);
               },
             ),
 

@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../../../models/home/filesListTime.dart';
+import '../../../components/general/toast/toast.dart';
 
 class HomeController extends GetxController with WindowListener {
   BuildContext? context; // 获取主体
@@ -122,33 +123,94 @@ class HomeController extends GetxController with WindowListener {
 
   /// TODO 自定义方法：文件重命名
   void renameFile() async {
-    /// 循环列表，将每个文件重命名并写入新文件夹中
-    for (int i = 0; i < allFilesList.length; i++) {
-      if (allFilesList[i].fileName != allFilesList[i].newFileName) {
-        // 获取后缀名
-        var format = allFilesList[i].fileFormat == '' ? '' : '.${allFilesList[i].fileFormat}';
+    /// 弹窗确认开始修改
+    bool confirm = await alertDialog(
+      context!,
+      title: '确认开始重命名',
+      child: SizedBox(
+        height: 80,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('请注意！！操作开始后无法撤回，'),
+          Text(
+            '为避免造成不必要的损失，建议提前备份所有文件',
+            style: TextStyle(fontWeight: FontWeight.w600, color: Theme.of(context!).colorScheme.error, fontSize: 18),
+          ),
+        ]),
+      ),
+    );
 
-        // 重命名文件
-        if (allFilesList[i].folder) {
-          // 重命名类型是文件夹
-          var oldFile = Directory('${filePath.value}${Platform.pathSeparator}${allFilesList[i].fileName}$format'); // 文件夹
-          var file = await oldFile.rename('${filePath.value}${Platform.pathSeparator}${allFilesList[i].newFileName}$format');
-          // 让页面刷新一下
-          listRefreshCount.value++;
-
-          // 输出结果
-          print('${file.path}${Platform.pathSeparator} 文件夹重命名成功');
-        } else {
-          // 重命名类型是文件
-          var oldFile = File('${filePath.value}${Platform.pathSeparator}${allFilesList[i].fileName}$format'); // 文件夹
-          var file = await oldFile.rename('${filePath.value}${Platform.pathSeparator}${allFilesList[i].newFileName}$format');
-          // 动一动路径，让页面刷新一下
-          listRefreshCount.value++;
-
-          // 输出结果
-          print('${file.path}${Platform.pathSeparator} 文件重命名成功');
+    /// 确认开始修改
+    if (confirm && allFilesList.isNotEmpty) {
+      /// 判断新命名中是否存在重复的名称
+      bool isRepeat = false;
+      for (int i = 0; i < allFilesList.length; i++)
+        // ignore: curly_braces_in_flow_control_structures
+        for (int j = i + 1; j < allFilesList.length; j++) {
+          bool a = allFilesList[i].newFileName == allFilesList[j].newFileName; // 检查名称是否相同
+          bool b = allFilesList[i].fileFormat == allFilesList[j].fileFormat; // 检查后缀是否相同
+          if (a && b) isRepeat = true;
         }
+
+      if (isRepeat) {
+        /// 弹窗提示存在重复的名称
+        await alertDialog(context!, title: '存在重复的名称', content: '请检查后重试');
+      } else {
+        /// 无重复名称，开始重命名
+        /// 循环次数（用于确认是否中途中断循环，以适时报错）
+        int loopCount = 0;
+
+        /// 执行了重命名的文件列表
+        List<Widget> renameTheRecord = <Widget>[];
+
+        /// 循环列表，将每个文件重命名并写入新文件夹中
+        for (int i = 0; i < allFilesList.length; i++) {
+          if (allFilesList[i].fileName != allFilesList[i].newFileName) {
+            // 获取后缀名
+            var format = allFilesList[i].fileFormat == '' ? '' : '.${allFilesList[i].fileFormat}';
+
+            // 重命名文件
+            if (allFilesList[i].folder) {
+              // 重命名类型是文件夹
+              var oldFile = Directory('${filePath.value}${Platform.pathSeparator}${allFilesList[i].fileName}$format'); // 文件夹
+              var file = await oldFile.rename('${filePath.value}${Platform.pathSeparator}${allFilesList[i].newFileName}$format');
+
+              // 输出结果
+              print('${file.path}${Platform.pathSeparator} 文件夹重命名成功');
+              renameTheRecord.add(Text('${allFilesList[i].fileName}$format → ${allFilesList[i].newFileName}$format'));
+            } else {
+              // 重命名类型是文件
+              var oldFile = File('${filePath.value}${Platform.pathSeparator}${allFilesList[i].fileName}$format'); // 文件夹
+              var file = await oldFile.rename('${filePath.value}${Platform.pathSeparator}${allFilesList[i].newFileName}$format');
+
+              // 输出结果
+              print('${file.path}${Platform.pathSeparator} 文件重命名成功');
+              renameTheRecord.add(Text('${allFilesList[i].fileName}$format → ${allFilesList[i].newFileName}$format'));
+            }
+          }
+          loopCount++;
+        }
+
+        if (loopCount == allFilesList.length) {
+          // 弹窗提示重命名成功
+          await alertDialog(
+            context!,
+            title: '重命名成功',
+            cancellable: false,
+
+            // 自定义显示内容
+            child: SizedBox(
+              height: 400,
+              width: 300,
+              // 列表
+              child: ListView(children: renameTheRecord),
+            ),
+          );
+        }
+        // 让页面刷新一下
+        listRefreshCount.value++;
       }
+    } else {
+      if (allFilesList.isEmpty) showToast(context, '未打开文件目录');
     }
   }
 }
