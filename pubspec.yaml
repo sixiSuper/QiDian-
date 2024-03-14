@@ -11,8 +11,8 @@ dependencies:
   window_manager: ^0.3.8
   flutter: 
     sdk: flutter
-  path_provider: ^2.1.2
-  file_selector: ^1.0.3
+  path_provider: ^2.1.2 # 路径选择
+  file_selector: ^1.0.3 # 文件操作
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
