@@ -202,7 +202,7 @@ Widget tableRow(
             // ),
             child: TextField(
                 decoration: InputDecoration(
-                  hintText: '请输入新文件名，空置代表使用原名称',
+                  hintText: '请输入新文件名，空置将默认原名称',
                   hintStyle: TextStyle(
                     color: Colors.grey[400],
                     fontSize: 14,
