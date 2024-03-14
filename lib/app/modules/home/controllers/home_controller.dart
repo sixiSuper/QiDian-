@@ -126,7 +126,7 @@ class HomeController extends GetxController with WindowListener {
     }
   }
 
-  /// TODO 自定义方法：文件重命名
+  /// 自定义方法：文件重命名
   void renameFile() async {
     // 确认列表不为空
     if (allFilesList.isNotEmpty) {

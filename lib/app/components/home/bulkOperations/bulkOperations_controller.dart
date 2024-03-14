@@ -24,61 +24,62 @@ class BulkOperationsController extends GetxController {
   /// 自定义方法：下载模板
   void downloadTemplate() async {
     // top.1 选择下载路径
-    String? path = await getDirectoryPath();
+    String? path = await getDirectoryPath(confirmButtonText: '下载');
 
     // 1.1 将选择到的路径传给 downloadedPath
-    if (path != null) downloadedPath.value = path;
+    if (path != null) {
+      downloadedPath.value = path;
+      // top.2 生成模板
+      Excel excel = Excel.createExcel();
 
-    // top.2 生成模板
-    Excel excel = Excel.createExcel();
+      // top.3 生成模板数据
+      Sheet sheet = excel['Sheet1'];
 
-    // top.3 生成模板数据
-    Sheet sheet = excel['Sheet1'];
+      // 3.1 第一行提示内容
+      sheet.updateCell(
+        CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0),
+        const TextCellValue('温馨提示：请在标 [ *重命名 ] 一栏填写文件名称（空置将默认输出原名）'),
+        // 样式
+        cellStyle: CellStyle(
+          fontColorHex: 'FFFF0000',
+          fontSize: 16,
+          bold: true,
+        ),
+      );
 
-    // 3.1 第一行提示内容
-    sheet.updateCell(
-      CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0),
-      const TextCellValue('温馨提示：请在标 [ *重命名 ] 一栏填写文件名称（空置将默认输出原名）'),
-      // 样式
-      cellStyle: CellStyle(
-        fontColorHex: 'FFFF0000',
-        fontSize: 16,
-        bold: true,
-      ),
-    );
+      // TODO 3.1 第二行表头
 
-    // 3.1 第二行表头
+      // TODO 3.2 生成所有数据
 
-    // 3.2 生成所有数据
+      // top.4 下载模板
 
-    // top.4 下载模板
+      // 4.1 检测该路径下已有几个模板
+      int templateCount = 0;
+      Stream<FileSystemEntity> fileList = Directory(downloadedPath.value).list();
 
-    // 4.1 检测该路径下已有几个模板
-    int templateCount = 0;
-    Stream<FileSystemEntity> fileList = Directory(downloadedPath.value).list();
-
-    // 创建循环，遍历模板数量
-    await for (FileSystemEntity fileSystemEntity in fileList) {
-      String name = fileSystemEntity.path.substring('${downloadedPath.value}1'.length);
-      // print(name);
-      if (fileSystemEntity is! Directory) {
-        if (name.substring(0, 15) == '模板：批量重命名_QiDian') templateCount++;
+      // 创建循环，遍历模板数量
+      await for (FileSystemEntity fileSystemEntity in fileList) {
+        String name = fileSystemEntity.path.substring('${downloadedPath.value}1'.length);
+        // print(name);
+        if (fileSystemEntity is! Directory) {
+          if (name.substring(0, 15) == '模板：批量重命名_QiDian') templateCount++;
+        }
       }
+
+      // 4.2 下载新模板
+      var fileBytes = excel.save();
+      File('${downloadedPath.value}${Platform.pathSeparator}模板：批量重命名_QiDian${templateCount == 0 ? '' : '~$templateCount'}.xlsx')
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(fileBytes!);
+
+      // 4.3 提示已下载
+      // ignore: use_build_context_synchronously
+      showToast(
+        context,
+        '文件已下载至：${downloadedPath.value}${Platform.pathSeparator}模板：批量重命名_QiDian${templateCount == 0 ? '' : '~$templateCount'}.xlsx',
+        toastDuration: 5,
+        gravity: ToastGravity.BOTTOM,
+      );
     }
-
-    // 4.2 下载新模板
-    var fileBytes = excel.save();
-    File('${downloadedPath.value}${Platform.pathSeparator}模板：批量重命名_QiDian${templateCount == 0 ? '' : '~$templateCount'}.xlsx')
-      ..createSync(recursive: true)
-      ..writeAsBytesSync(fileBytes!);
-
-    // 4.3 提示已下载
-    // ignore: use_build_context_synchronously
-    showToast(
-      context,
-      '文件已下载至：${downloadedPath.value}${Platform.pathSeparator}模板：批量重命名_QiDian${templateCount == 0 ? '' : '~$templateCount'}.xlsx',
-      toastDuration: 5,
-      gravity: ToastGravity.BOTTOM,
-    );
   }
 }
