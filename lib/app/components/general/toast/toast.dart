@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart'; // 引入轻提示组件库
 
-_toast(context, String text) {
+toast(context, String text) {
   // 固定写法，从第三方组件库文档里面复制的
   Fluttertoast.showToast(
       msg: text,
