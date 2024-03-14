@@ -76,7 +76,7 @@ class BulkOperations extends GetView<BulkOperationsController> {
                         context,
                         label: Text('点击下载', style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
                         icon: Icons.download_rounded,
-                        onPressed: () {},
+                        onPressed: () => controller.downloadTemplate(),
                       )),
                   const SizedBox(height: 10),
                   Text('注：请勿修改模板格式，避免系统无法识别！', style: TextStyle(color: Theme.of(context).colorScheme.error)),
@@ -151,6 +151,7 @@ class BulkOperations extends GetView<BulkOperationsController> {
   // 组件本体
   @override
   Widget build(BuildContext context) {
+    controller.context = context;
     return SizedBox(
       width: 400,
       height: 500,

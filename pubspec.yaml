@@ -13,7 +13,9 @@ dependencies:
     sdk: flutter
   path_provider: ^2.1.2 # 路径选择
   file_selector: ^1.0.3 # 文件操作
-  fluttertoast: ^8.2.4
+  fluttertoast: ^8.2.4 # 轻提示
+  excel: ^4.0.2 # excel插件：https://pub.flutter-io.cn/packages/excel
+  spreadsheet_decoder: ^2.2.0 # excel操作插件：//https://pub.flutter-io.cn/packages/spreadsheet_decoder
 
 dev_dependencies: 
   flutter_lints: ^2.0.0

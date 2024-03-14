@@ -16,7 +16,12 @@ toast(context, String text) {
       fontSize: 16.0);
 }
 
-showToast(context, String text, {int toastDuration = 2}) {
+showToast(
+  context,
+  String text, {
+  int toastDuration = 2, // 持续时间
+  ToastGravity gravity = ToastGravity.CENTER, // 显示位置
+}) {
   Widget toast = Container(
     padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
     decoration: BoxDecoration(
@@ -36,7 +41,7 @@ showToast(context, String text, {int toastDuration = 2}) {
 
   FToast().showToast(
     child: toast,
-    gravity: ToastGravity.CENTER,
+    gravity: gravity,
     toastDuration: Duration(seconds: toastDuration),
   );
 }

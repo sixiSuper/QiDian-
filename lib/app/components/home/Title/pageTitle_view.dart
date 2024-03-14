@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../general/alertDialog/alertDialog_view.dart';
 import '../../general/button/button.dart';
+import '../../general/toast/toast.dart';
 import '../bulkOperations/bulkOperations_view.dart';
 
 Widget pageTitle(BuildContext context, controller) {
@@ -25,27 +26,40 @@ Widget pageTitle(BuildContext context, controller) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // 打开目录按钮
-        secondaryIconButton(
-          context,
-          label: const Text('打开目录'),
-          icon: Icons.folder,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // 打开目录按钮
+            secondaryIconButton(
+              context,
+              label: const Text('打开目录'),
+              icon: Icons.folder,
 
-          // 执行逻辑
-          onPressed: () async {
-            // 如果列表不为空，则调用确认弹窗
-            bool confirm = true;
-            if (controller.allFilesList.isNotEmpty) {
-              confirm = await alertDialog(
-                context,
-                title: '确认切换目录',
-                content: '目录切换后，未保存的内容将会清空',
-              );
-            }
+              // 执行逻辑
+              onPressed: () async {
+                // 如果列表不为空，则调用确认弹窗
+                bool confirm = true;
+                if (controller.allFilesList.isNotEmpty) {
+                  confirm = await alertDialog(
+                    context,
+                    title: '确认切换目录',
+                    content: '目录切换后，未保存的内容将会清空',
+                  );
+                }
 
-            // 确认后调用开启目录方法，进入选择界面
-            if (confirm) controller.getFile();
-          },
+                // 确认后调用开启目录方法，进入选择界面
+                if (confirm) controller.getFile();
+              },
+            ),
+
+            // 刷新列表按钮
+            const SizedBox(width: 12),
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: () => controller.refreshList(),
+            )
+          ],
         ),
 
         // 右侧操作区域
@@ -60,7 +74,14 @@ Widget pageTitle(BuildContext context, controller) {
 
               // 执行逻辑
               onPressed: () {
-                BulkOperations.bulkOperations(context);
+                // 判断列表是否为空
+                if (controller.allFilesList.isNotEmpty) {
+                  // 不为空：弹出批量操作窗口
+                  BulkOperations.bulkOperations(context);
+                } else {
+                  // 为空：弹出轻提示
+                  showToast(context, '请打开文件目录');
+                }
               },
             ),
 
