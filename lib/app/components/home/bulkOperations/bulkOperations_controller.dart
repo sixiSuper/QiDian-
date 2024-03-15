@@ -24,7 +24,7 @@ class BulkOperationsController extends GetxController {
   // 所有文件的列表
   RxList<FilesListTime> allFilesList = <FilesListTime>[].obs;
 
-  /// 自定义方法：下载模板
+  /// 自定义方法：生成与下载模板
   void downloadTemplate() async {
     // top.1 选择下载路径
     String? path = await getDirectoryPath(confirmButtonText: '下载');
@@ -67,7 +67,7 @@ class BulkOperationsController extends GetxController {
       setCell(sheet, 'C2', '文件格式', bold: true);
       setCell(sheet, 'C2', '文件名称（重命名）', bold: true, fontColorHex: 'FFFF0000');
 
-      // TODO 3.4 生成所有数据
+      // 3.4 生成所有数据
       for (int i = 0; i < allFilesList.length; i++) {
         String classify = allFilesList[i].folder ? '文件夹' : '文件'; // 判断文件类型
 
@@ -133,5 +133,18 @@ class BulkOperationsController extends GetxController {
         verticalAlign: VerticalAlign.Center,
       ),
     );
+  }
+
+  /// TODO 自定义方法：上传模板
+  void uploadTemplate() async {
+    // top.1 获取文件路径
+
+    // top.2 获取文件名
+
+    // top.3 读取数据
+
+    // top.4 检测重名与异常字符
+
+    // top.5 上传数据
   }
 }

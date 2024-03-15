@@ -73,13 +73,13 @@ class BulkOperations extends GetView<BulkOperationsController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('第一步：下载 Excel 模板', style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
+                  Text('第一步：生成 Excel 模板', style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
                   const SizedBox(height: 15),
                   SizedBox(
                       width: 123,
                       child: secondaryIconButton(
                         context,
-                        label: Text('点击下载', style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
+                        label: Text('点击生成', style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
                         icon: Icons.download_rounded,
                         onPressed: () => controller.downloadTemplate(),
                       )),
@@ -95,7 +95,7 @@ class BulkOperations extends GetView<BulkOperationsController> {
                         context,
                         label: Text('点击上传', style: TextStyle(color: Theme.of(context).colorScheme.onSecondary)),
                         icon: Icons.publish_rounded,
-                        onPressed: () {},
+                        onPressed: () => controller.uploadTemplate(),
                       )),
                   const SizedBox(height: 15),
 
