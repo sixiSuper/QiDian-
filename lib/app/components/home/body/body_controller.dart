@@ -13,10 +13,11 @@ class BodyController extends GetxController {
   // 合并列表
   RxList<FilesListTime> allFilesList = <FilesListTime>[].obs;
 
-  ValueChanged<List<FilesListTime>>? changeColorCallBack;
+  ValueChanged<List<FilesListTime>>? changeColorCallBack; // 将表数据传给父组件的方法
 
   // 文件路径
   RxString filePath = ''.obs;
+  // 列表刷新次数
   RxInt listRefreshCount = 0.obs;
 
   @override // 生命周期：初始化
@@ -62,6 +63,9 @@ class BodyController extends GetxController {
           'folder': false,
           'fileName': '',
           'fileFormat': '',
+          'newFileName': '',
+          'isRepeat': false,
+          'invalidFormat': false,
         };
 
         // 判断是否为文件夹
@@ -97,10 +101,49 @@ class BodyController extends GetxController {
     changeColorCallBack!(allFilesList);
   }
 
-  /// 自定义方法：修改新名称
-  void changeName(String newName, index) {
-    allFilesList[index].newFileName = newName;
-    changeColorCallBack!(allFilesList);
-    print('新名称同步成功：${allFilesList[index].newFileName}');
+  /// 自定义方法：修改数据内容
+  void changeValue(
+    index, {
+    String? newName, // 新名称
+    bool? isRepeat, // 名称是否存在重复
+    bool? invalidFormat, // 格式是否错误
+  }) {
+    // 更新名称
+    if (newName != null) {
+      allFilesList[index] = FilesListTime.fromJson({
+        'folder': allFilesList[index].folder,
+        'fileName': allFilesList[index].fileName,
+        'fileFormat': allFilesList[index].fileFormat,
+        'newFileName': newName,
+        'isRepeat': allFilesList[index].isRepeat,
+        'invalidFormat': allFilesList[index].invalidFormat,
+      });
+      print('新名称同步成功：${allFilesList[index].newFileName}');
+    }
+
+    // 更新重复状态
+    if (isRepeat != null) {
+      allFilesList[index] = FilesListTime.fromJson({
+        'folder': allFilesList[index].folder,
+        'fileName': allFilesList[index].fileName,
+        'fileFormat': allFilesList[index].fileFormat,
+        'newFileName': allFilesList[index].newFileName,
+        'isRepeat': isRepeat,
+        'invalidFormat': allFilesList[index].invalidFormat,
+      });
+    }
+
+    // 更新格式错误状态
+    if (invalidFormat != null) {
+      allFilesList[index] = FilesListTime.fromJson({
+        'folder': allFilesList[index].folder,
+        'fileName': allFilesList[index].fileName,
+        'fileFormat': allFilesList[index].fileFormat,
+        'newFileName': allFilesList[index].newFileName,
+        'isRepeat': allFilesList[index].isRepeat,
+        'invalidFormat': invalidFormat,
+      });
+    }
+    changeColorCallBack!(allFilesList); // 将表数据传给父组件
   }
 }

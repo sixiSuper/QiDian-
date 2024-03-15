@@ -44,7 +44,7 @@ Widget pageTitle(BuildContext context, controller) {
                   confirm = await alertDialog(
                     context,
                     title: '确认切换目录',
-                    content: '目录切换后，未保存的内容将会清空',
+                    content: '目录切换后，未保存的操作将会清空',
                   );
                 }
 
@@ -77,7 +77,7 @@ Widget pageTitle(BuildContext context, controller) {
                 // 判断列表是否为空
                 if (controller.allFilesList.isNotEmpty) {
                   // 不为空：弹出批量操作窗口
-                  BulkOperations.bulkOperations(context);
+                  BulkOperations.bulkOperations(context, controller.allFilesList);
                 } else {
                   // 为空：弹出轻提示
                   showToast(context, '请打开文件目录');

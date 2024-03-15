@@ -6,19 +6,24 @@ import 'package:bulk_renaming_flutter/app/components/home/bulkOperations/bulkOpe
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../models/home/filesListTime.dart';
 import '../../general/alertDialog/dialogView_view.dart';
 import '../../general/button/button.dart';
 
 class BulkOperations extends GetView<BulkOperationsController> {
-  const BulkOperations({super.key});
+  final RxList<FilesListTime> allFilesList;
+  const BulkOperations({super.key, required this.allFilesList});
 
   // 调用弹窗方法
-  static bulkOperations(BuildContext context) {
+  static bulkOperations(
+    BuildContext context,
+    RxList<FilesListTime> allFilesList, // 传入全部文件列表
+  ) {
     return dialogView(
       context,
       btnText: '确认上传',
       btnIcon: Icons.file_upload_outlined,
-      child: const BulkOperations(),
+      child: BulkOperations(allFilesList: allFilesList),
       onPressed: () {
         print('点击了确定按钮');
       },
@@ -152,6 +157,7 @@ class BulkOperations extends GetView<BulkOperationsController> {
   @override
   Widget build(BuildContext context) {
     controller.context = context;
+    controller.allFilesList = allFilesList;
     return SizedBox(
       width: 400,
       height: 500,

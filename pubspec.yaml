@@ -2,27 +2,27 @@ name: bulk_renaming_flutter
 version: 1.0.0+1
 publish_to: none
 description: 文件批量更名软件
-environment: 
+environment:
   sdk: '>=3.2.5 <4.0.0'
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.2
   get: 4.6.6
   window_manager: ^0.3.8
-  flutter: 
+  flutter:
     sdk: flutter
   path_provider: ^2.1.2 # 路径选择
   file_selector: ^1.0.3 # 文件操作
   fluttertoast: ^8.2.4 # 轻提示
   excel: ^4.0.2 # excel插件：https://pub.flutter-io.cn/packages/excel
-  spreadsheet_decoder: ^2.2.0 # excel操作插件：//https://pub.flutter-io.cn/packages/spreadsheet_decoder
+  # spreadsheet_decoder: ^2.2.0 # excel操作插件：//https://pub.flutter-io.cn/packages/spreadsheet_decoder
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: ^2.0.0
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
-flutter: 
+flutter:
   uses-material-design: true
   fonts:
     - family: MiSans
