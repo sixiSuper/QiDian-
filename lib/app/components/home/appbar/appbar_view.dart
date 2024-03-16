@@ -44,7 +44,21 @@ AppBar appbar(BuildContext context, controller) {
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         header(context),
                         const SizedBox(height: 30),
-                        const Text('本项目使用 MulanPSL-2.0 开源协议，请自觉遵守相关条例。'),
+                        const Text('版本号：v1.0.0'),
+                        const SizedBox(height: 10),
+                        Row(children: [
+                          const Text('本项目使用'),
+                          InkWell(
+                            child: const Text(' MulanPSL-2.0 '),
+                            onTap: () async {
+                              Uri url = Uri.parse('http://license.coscl.org.cn/MulanPSL2');
+                              if (!await launchUrl(url)) {
+                                throw Exception('Could not launch $url');
+                              }
+                            },
+                          ),
+                          const Text('开源协议，请自觉遵守相关条例。'),
+                        ]),
                         const SizedBox(height: 30),
                         const Text('相关网址', style: TextStyle(fontWeight: FontWeight.w500)),
                         const SizedBox(height: 10),
@@ -154,7 +168,7 @@ Widget header(BuildContext context) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Text('关于我们',
+      Text('关于',
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,

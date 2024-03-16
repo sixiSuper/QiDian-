@@ -1,16 +1,20 @@
-# bulk_renaming_flutter
+# QiDian 文件管理器
 
-文件批量更名软件
+用于管理文件的一个 Flutter 桌面端（windows）应用，首个版本仅支持批量重命名
 
-## Getting Started
+## 功能目录
 
-This project is a starting point for a Flutter application.
+- [快捷文件重命名](#快捷文件重命名)
+- [批量文件重命名](#批量文件重命名)
 
-A few resources to get you started if this is your first Flutter project:
+### 快捷文件重命名
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+### 批量文件重命名
+
+
+
+## 开源协议
+
+MulanPSL-2.0
