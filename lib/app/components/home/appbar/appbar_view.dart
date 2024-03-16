@@ -39,43 +39,57 @@ AppBar appbar(BuildContext context, controller) {
                     context,
                     // 内容
                     child: SizedBox(
-                      width: 400,
-                      height: 500,
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        header(context),
-                        const SizedBox(height: 30),
-                        const Text('版本号：v1.0.0'),
-                        const SizedBox(height: 10),
-                        Row(children: [
-                          const Text('本项目使用'),
-                          InkWell(
-                            child: const Text(' MulanPSL-2.0 '),
-                            onTap: () async {
-                              Uri url = Uri.parse('http://license.coscl.org.cn/MulanPSL2');
-                              if (!await launchUrl(url)) {
-                                throw Exception('Could not launch $url');
-                              }
-                            },
-                          ),
-                          const Text('开源协议，请自觉遵守相关条例。'),
-                        ]),
-                        const SizedBox(height: 30),
-                        const Text('相关网址', style: TextStyle(fontWeight: FontWeight.w500)),
-                        const SizedBox(height: 10),
-                        Row(children: [
-                          const Text('getee：'),
-                          InkWell(
-                            child: const Text('https://gitee.com/sixiSuper/qidian-file-manager.git'),
-                            onTap: () async {
-                              Uri url = Uri.parse('https://gitee.com/sixiSuper/qidian-file-manager.git');
-                              if (!await launchUrl(url)) {
-                                throw Exception('Could not launch $url');
-                              }
-                            },
-                          ),
-                        ]),
-                      ]),
-                    ),
+                        width: 480,
+                        height: 600,
+                        child: Expanded(
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            header(context),
+                            const SizedBox(height: 30),
+                            const Text('版本号：v1.0.0'),
+                            const SizedBox(height: 10),
+                            Row(children: [
+                              const Text('本项目使用'),
+                              InkWell(
+                                child: const Text(' MulanPSL-2.0 '),
+                                onTap: () async {
+                                  Uri url = Uri.parse('http://license.coscl.org.cn/MulanPSL2');
+                                  if (!await launchUrl(url)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
+                              ),
+                              const Text('开源协议，请自觉遵守相关条例。'),
+                            ]),
+                            const SizedBox(height: 30),
+                            const Text('相关网址', style: TextStyle(fontWeight: FontWeight.w500)),
+                            const SizedBox(height: 10),
+                            Row(children: [
+                              const Text('getee：'),
+                              InkWell(
+                                child: const Text('https://gitee.com/sixiSuper/qidian-file-manager.git'),
+                                onTap: () async {
+                                  Uri url = Uri.parse('https://gitee.com/sixiSuper/qidian-file-manager.git');
+                                  if (!await launchUrl(url)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
+                              ),
+                            ]),
+                            const SizedBox(height: 10),
+                            Row(children: [
+                              const Text('gethub：'),
+                              InkWell(
+                                child: const Text('https://github.com/sixiSuper/QiDian-File-Manager.git'),
+                                onTap: () async {
+                                  Uri url = Uri.parse('https://github.com/sixiSuper/QiDian-File-Manager.git');
+                                  if (!await launchUrl(url)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
+                              ),
+                            ]),
+                          ]),
+                        )),
                   );
                 },
               ),
