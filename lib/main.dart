@@ -14,7 +14,7 @@ void main() async {
     //window 设置窗口的初始尺寸
     // size: Size(800, 500),
     //窗口是否居中
-    // center: true,
+    center: true,
     //设置窗口的背景色
     backgroundColor: Colors.transparent,
     //true 表示在状态栏不显示程序

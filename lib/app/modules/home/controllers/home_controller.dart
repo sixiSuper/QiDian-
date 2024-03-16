@@ -47,7 +47,7 @@ class HomeController extends GetxController with WindowListener {
   void onWindowClose() async {
     bool isPreventClose = await windowManager.isPreventClose();
     // 如果执行了关闭事件
-    if (isPreventClose) {
+    if (isPreventClose && allFilesList.isNotEmpty) {
       // 如果当前窗口为最小化状态，则恢复窗口以起到提醒作用
       bool isMinimized = await windowManager.isMinimized();
       if (isMinimized) {
@@ -61,6 +61,10 @@ class HomeController extends GetxController with WindowListener {
         content: '关闭后无法保存正在编辑的内容，请确认关闭',
       );
       if (popUpResults) windowManager.destroy();
+    }
+
+    if (allFilesList.isEmpty) {
+      windowManager.destroy();
     }
   }
 
