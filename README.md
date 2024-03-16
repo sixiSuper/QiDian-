@@ -16,7 +16,7 @@
 
 ### 发行版
 
-- v1.0.0  [点击下载](https://wwb.lanzn.com/ij09d1ro0ejg) | [更新日志](#v1.0.0)
+- v1.0.0  [点击下载](https://wwb.lanzn.com/ibIZJ1ro2r3a) | [更新日志](#v1.0.0)
 
 ### 功能说明
 
