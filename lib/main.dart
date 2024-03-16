@@ -12,7 +12,7 @@ void main() async {
     minimumSize: Size(960, 720), //设置窗口的最小尺寸
     // maximumSize: Size(800, 600), //设置窗口的最大尺寸
     //window 设置窗口的初始尺寸
-    // size: Size(800, 500),
+    size: Size(1440, 960),
     //窗口是否居中
     center: true,
     //设置窗口的背景色
