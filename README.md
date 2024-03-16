@@ -1,6 +1,6 @@
 # QiDian 文件管理器
 
-用于管理文件的一个 Flutter 桌面端（windows）应用，首个版本仅支持批量重命名
+用于管理文件的一个 Flutter 桌面端（windows）应用。
 
 ## 目录
 
