@@ -24,7 +24,7 @@ void main() async {
     //hidden 表示隐藏标题栏 normal 显示标题栏
     titleBarStyle: TitleBarStyle.hidden,
     //设置窗口的标题，
-    // title: "WindowSettingTest",
+    title: "QiDian File Manager",
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     //显示窗口

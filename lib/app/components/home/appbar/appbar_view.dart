@@ -2,8 +2,10 @@
 // 顶部导航栏（包含窗口操作按钮）
 // ...
 
+import 'package:bulk_renaming_flutter/app/components/general/alertDialog/dialogView_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
 AppBar appbar(BuildContext context, controller) {
@@ -20,16 +22,62 @@ AppBar appbar(BuildContext context, controller) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // 标题
-            const Text(
-              'QiDian',
-              style: TextStyle(
-                fontSize: 18,
-                fontFamily: '微软雅黑',
-                fontWeight: FontWeight.bold,
-                color: Color.fromRGBO(31, 41, 55, 1),
+            Row(children: [
+              // 设置按钮
+              IconButton(
+                // 隐藏反馈效果
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+
+                icon: Icon(
+                  Icons.menu,
+                  size: 24,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
+                onPressed: () {
+                  dialogView(
+                    context,
+                    // 内容
+                    child: SizedBox(
+                      width: 400,
+                      height: 500,
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        header(context),
+                        const SizedBox(height: 30),
+                        const Text('本项目使用 MulanPSL-2.0 开源协议，请自觉遵守相关条例。'),
+                        const SizedBox(height: 30),
+                        const Text('相关网址', style: TextStyle(fontWeight: FontWeight.w500)),
+                        const SizedBox(height: 10),
+                        Row(children: [
+                          const Text('getee：'),
+                          InkWell(
+                            child: const Text('https://gitee.com/sixiSuper/qidian-file-manager.git'),
+                            onTap: () async {
+                              Uri url = Uri.parse('https://gitee.com/sixiSuper/qidian-file-manager.git');
+                              if (!await launchUrl(url)) {
+                                throw Exception('Could not launch $url');
+                              }
+                            },
+                          ),
+                        ]),
+                      ]),
+                    ),
+                  );
+                },
               ),
-            ),
+
+              // 标题
+              const SizedBox(width: 10),
+              const Text(
+                'QiDian',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: '微软雅黑',
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(31, 41, 55, 1),
+                ),
+              ),
+            ]),
             // 右侧操作按钮
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -98,5 +146,37 @@ AppBar appbar(BuildContext context, controller) {
       ),
     ),
     centerTitle: true,
+  );
+}
+
+// 抬头区域
+Widget header(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text('关于我们',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).colorScheme.onPrimary,
+          )),
+
+      // 关闭按钮
+      IconButton(
+        // 隐藏反馈效果
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+
+        // 点击事件
+        onPressed: () {
+          Navigator.pop(context, false);
+        },
+        icon: Icon(
+          Icons.clear_rounded,
+          color: Theme.of(context).colorScheme.onPrimary,
+          size: 24,
+        ),
+      ),
+    ],
   );
 }
