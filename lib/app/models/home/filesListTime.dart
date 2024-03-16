@@ -23,6 +23,7 @@ class FilesListTime {
     required this.fileFormat,
     required this.newFileName,
     required this.isRepeat,
+    required this.invalidFormat,
   });
 
   FilesListTime.fromJson(Map<dynamic, dynamic> json) {

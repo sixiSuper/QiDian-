@@ -27,23 +27,6 @@ dialogView(
 
             // 内容
             content: child, // 内容区域
-
-            actions: [
-              // 确定按钮
-              primaryIconButton(
-                context,
-                label: Text(btnText ?? '确认'),
-                icon: btnIcon,
-
-                // 处理函数
-                onPressed: () {
-                  print('ok');
-                  // 关闭弹窗，pop() 中传入的参数将会作为返回值，需配合异步使用
-                  Navigator.pop(context, true);
-                  onPressed?.call();
-                },
-              ),
-            ],
           ),
           Positioned(top: 0, left: 0, child: DragToMoveArea(child: SizedBox(width: size.width, height: 50)))
         ]);

@@ -24,9 +24,6 @@ class BulkOperations extends GetView<BulkOperationsController> {
       btnText: '确认上传',
       btnIcon: Icons.file_upload_outlined,
       child: BulkOperations(allFilesList: allFilesList),
-      onPressed: () {
-        print('点击了确定按钮');
-      },
     );
   }
 
@@ -164,6 +161,19 @@ class BulkOperations extends GetView<BulkOperationsController> {
       child: Column(children: [
         _header(context),
         _body(context),
+        primaryIconButton(
+          context,
+          label: const Text('上传确认'),
+          icon: Icons.file_upload_outlined,
+
+          // 处理函数
+          onPressed: () {
+            print('ok');
+            // 关闭弹窗，pop() 中传入的参数将会作为返回值，需配合异步使用
+            controller.uploadData();
+            Navigator.pop(context, true);
+          },
+        ),
       ]),
     );
   }

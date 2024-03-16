@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 Widget textInput(
   BuildContext context, {
   bool error = false,
+  String text = 'niubi',
   String errorText = 'error',
   Function? onChanged,
 }) {
@@ -26,16 +27,21 @@ Widget textInput(
           // 背景颜色根据错误状态决定显示的颜色
           color: error ? errorColor.withOpacity(0.1) : Theme.of(context).colorScheme.onSecondary.withOpacity(0.1),
         ),
-        child: _textField(context, error, onChanged: (text) {
-          onChanged!(text);
-        }),
+        child: _textField(
+          context,
+          error,
+          text: text,
+          onChanged: (t) {
+            onChanged!(t);
+          },
+        ),
       ),
 
       // 错误提示文字
       Visibility(
           visible: error,
           child: Container(
-            height: 13,
+            height: 14,
             margin: const EdgeInsets.only(top: 1, left: 1.5),
             child: Text(errorText,
                 style: TextStyle(
@@ -48,7 +54,7 @@ Widget textInput(
 }
 
 // 输入框模板
-Widget _textField(BuildContext context, error, {Function? onChanged}) {
+Widget _textField(BuildContext context, error, {Function? onChanged, String text = ''}) {
   // 错误颜色
   Color errorColor = Theme.of(context).colorScheme.error;
   return TextField(
@@ -71,9 +77,22 @@ Widget _textField(BuildContext context, error, {Function? onChanged}) {
     ),
 
     // 监听输入内容
-    onChanged: (text) {
-      print(text);
-      onChanged!(text);
+    onChanged: (t) {
+      print(t);
+      // text = t;
+      // 回调
+      onChanged!(t);
     },
+
+    // 输入框控制器（实现双向数据绑定）
+    controller: TextEditingController.fromValue(TextEditingValue(
+      text: text,
+      selection: TextSelection.fromPosition(
+        TextPosition(
+          affinity: TextAffinity.downstream,
+          offset: text.length,
+        ),
+      ),
+    )),
   );
 }

@@ -110,7 +110,7 @@ Widget table(
   ]);
 }
 
-// 列表行组件
+// 列表行组件 (从table中获取索引值，直接在 BodyController 中拿数据)
 class TableRow extends GetView<BodyController> {
   // 构造函数
   const TableRow({
@@ -199,18 +199,19 @@ class TableRow extends GetView<BodyController> {
             ),
           ),
 
-          // 自定义重命名输入框
+          // 重命名输入框
           Container(
             margin: const EdgeInsets.only(left: 80, top: 4, bottom: 4),
             width: 300,
             child: textInput(
               context,
+              text: controller.allFilesList[index].newFileName,
               error: controller.allFilesList[index].isRepeat || controller.allFilesList[index].invalidFormat,
               errorText: controller.allFilesList[index].invalidFormat ? '文件名不能包含字符：${Platform.pathSeparator} / : * ? " < > |' : '请勿输入重复名称',
 
               // 输入时执行
-              onChanged: (text) {
-                bool invalidFormat0 = false; // 格式错误
+              onChanged: (String text) {
+                bool invalidFormat0 = false; // 存在异常字符
 
                 // top.1 遍历输入文字中是否存在禁用字符
                 for (int i = 0; i < text.length; i++) {
@@ -223,7 +224,6 @@ class TableRow extends GetView<BodyController> {
                 // 判断并同步格式错误
                 if (invalidFormat0) {
                   controller.changeValue(index, invalidFormat: invalidFormat0);
-                  return;
                 } else {
                   controller.changeValue(index, invalidFormat: invalidFormat0);
                 }
